@@ -56,7 +56,7 @@ router.get(`/`, async (req, res) => {
                     userId: user.id
                 },
                 secret,
-                {expiresIn: '1d'}
+                {expiresIn : '1d'}
             )
             
             res.status(200).send({user: user.email, token: token})

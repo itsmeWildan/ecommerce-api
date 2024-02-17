@@ -4,8 +4,8 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const cors = require('cors')
-// require('dotenv/config')   
-require('dotenv').config();
+require('dotenv/config')   
+// require('dotenv').config();
 const authJwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler')
 
@@ -17,6 +17,7 @@ app.options('*', cors())
 app.use(bodyParser.json())
 app.use(morgan('tiny'))
 app.use(authJwt());
+app.use('/public/uploads', express.static(__dirname + '/public/uploads'))
 app.use(errorHandler)
 
 
@@ -33,22 +34,8 @@ app.use(`${api}/categories`, categoriesRoutes)
 app.use(`${api}/products`, productsRoutes)
 app.use(`${api}/users`, usersRoutes)
 app.use(`${api}/orders`, ordersRoutes)
-    
-    // database
-    // const PORT = process.env.PORT||3000
-    // const MONGOURL = process.env.MONGO_URL
 
-    // mongoose.connect(MONGOURL).then(()=>{
-    //         console.log('Database connection Successfully...')
-    //         app.listen(PORT, ()=>{
-    //                 console.log(`Server is running http://localhost:${PORT}`)
-    //             })
-    //         }).catch((err)=>{
-    //                 console.log(err)
-    //             })
-                
-    // mongoose.connect('mongodb://localhost:3000/ecommerce1'); // new method connect mongoose
-
+// Database connection
     mongoose.connect(process.env.CONNECTION_STRING, {
         dbName: 'ecommerce1'
     })

@@ -57,12 +57,22 @@ const productSchema = mongoose.Schema({
     }
 })
 
-productSchema.virtual('id').get(function () {
-    return this._id.toHexString();
-})
+productSchema.statics.findById = async function(productId) {
+    try {
+        return await this.findOne({ _id: productId });
+    } catch (error) {
+        throw new Error('Failed to find product by ID');
+    }
+};
 
-productSchema.set('toJSON', {
-    virtuals: true,
-})
+const Product = mongoose.model('Product', productSchema);
+
+// productSchema.virtual('id').get(function () {
+//     return this._id.toHexString();
+// })
+
+// productSchema.set('toJSON', {
+//     virtuals: true,
+// })
 
 exports.Product = mongoose.model('Product', productSchema)
